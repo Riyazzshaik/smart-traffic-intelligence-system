@@ -119,7 +119,7 @@ const MapSection = () => {
         setDangerWarning(false);
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/safer-route", {
+            const response = await fetch("https://smart-traffic-api-u09k.onrender.com/safer-route", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
