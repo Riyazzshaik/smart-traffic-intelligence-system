@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Map, Activity } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Navbar = () => {
