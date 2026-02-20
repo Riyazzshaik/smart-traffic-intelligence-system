@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TrafficService } from '../services/api';
 import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import { motion } from 'framer-motion';
 import { Navigation, MapPin, AlertTriangle, ShieldCheck, Crosshair } from 'lucide-react';
@@ -131,21 +132,14 @@ const MapSection = () => {
         const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
 
         try {
-            const response = await fetch("https://smart-traffic-api-u09k.onrender.com/safer-route", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    start_lat: start.lat,
-                    start_lng: start.lng,
-                    end_lat: end.lat,
-                    end_lng: end.lng
-                }),
-                signal: controller.signal
-            });
+            const data = await TrafficService.getSaferRoute({
+                start_lat: start.lat,
+                start_lng: start.lng,
+                end_lat: end.lat,
+                end_lng: end.lng
+            }, controller.signal);
 
             clearTimeout(timeoutId); // Clear timeout if successful
-
-            const data = await response.json();
 
             if (data.danger_warning) {
                 setDangerWarning(true);

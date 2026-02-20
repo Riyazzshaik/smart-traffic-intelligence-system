@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import InputPanel from './InputPanel';
 import OutputPanel from './OutputPanel';
+import { TrafficService } from '../services/api';
 import { motion } from 'framer-motion';
 
 const RiskDashboard = () => {
@@ -68,27 +69,16 @@ const RiskDashboard = () => {
                 }
             }
 
-            const response = await fetch("https://smart-traffic-api-u09k.onrender.com/predict", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-                signal: controller.signal
-            });
+            const data = await TrafficService.predictRisk(formData, controller.signal);
 
             clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                throw new Error(`Server error: ${response.status}`);
-            }
-
-            const data = await response.json();
             setResult(data);
         } catch (error) {
             console.error("Analysis failed:", error);
             if (error.name === 'AbortError') {
                 alert("Request timed out. The server is likely waking up. Please try again.");
             } else {
-                alert("Failed to analyze risk. Ensure backend is running or try again.");
+                alert("Failed to analyze risk. Ensure backend is running.");
             }
         } finally {
             clearTimeout(timer1);
