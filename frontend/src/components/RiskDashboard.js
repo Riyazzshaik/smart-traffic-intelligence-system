@@ -40,8 +40,16 @@ const RiskDashboard = () => {
         });
     };
 
+    const [loadingText, setLoadingText] = useState("Analyzing...");
+
     const analyzeRisk = async () => {
         setLoading(true);
+        setLoadingText("Analyzing...");
+
+        // Cold start timers
+        const timer1 = setTimeout(() => setLoadingText("Starting AI Engine..."), 2000);
+        const timer2 = setTimeout(() => setLoadingText("Waking up Server (may take 60s)..."), 8000);
+
         try {
             // Basic validation
             for (let key in formData) {
@@ -49,6 +57,8 @@ const RiskDashboard = () => {
                 if (formData[key] === "" && key !== 'Number_of_Casualties') {
                     alert(`Please fill ${key.replaceAll("_", " ")}`);
                     setLoading(false);
+                    clearTimeout(timer1);
+                    clearTimeout(timer2);
                     return;
                 }
             }
@@ -67,8 +77,10 @@ const RiskDashboard = () => {
             setResult(data);
         } catch (error) {
             console.error("Analysis failed:", error);
-            alert("Failed to analyze risk. Ensure backend is running.");
+            alert("Failed to analyze risk. Server might be waking up, please try again.");
         } finally {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
             setLoading(false);
         }
     };
@@ -111,7 +123,7 @@ const RiskDashboard = () => {
                                     boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)'
                                 }}
                             >
-                                {loading ? "Analyzing..." : "⚡ Analyze Risk Intelligence"}
+                                {loading ? loadingText : "⚡ Analyze Risk Intelligence"}
                             </motion.button>
 
                             {/* Demo Controls Grid */}

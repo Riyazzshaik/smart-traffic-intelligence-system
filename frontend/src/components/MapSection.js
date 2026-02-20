@@ -113,10 +113,18 @@ const MapSection = () => {
         );
     };
 
+    const [loadingText, setLoadingText] = useState("Calculating...");
+
     const fetchRoutes = async () => {
+        console.log("FETCH ROUTES CLICKED");
         setLoading(true);
+        setLoadingText("Connecting to AI...");
         setRoutes({ fastest: null, safest: null });
         setDangerWarning(false);
+
+        // Timer to update loading text for cold starts
+        const timer1 = setTimeout(() => setLoadingText("Starting AI Engine..."), 2000);
+        const timer2 = setTimeout(() => setLoadingText("Waking up Server (may take 60s)..."), 8000);
 
         try {
             const response = await fetch("https://smart-traffic-api-u09k.onrender.com/safer-route", {
@@ -156,8 +164,10 @@ const MapSection = () => {
             }
         } catch (error) {
             console.error("Error fetching routes:", error);
-            alert("Failed to connect to AI Route Server");
+            alert("Failed to connect to AI Route Server. Please try again in 1 minute.");
         } finally {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
             setLoading(false);
         }
     };
@@ -240,7 +250,7 @@ const MapSection = () => {
                             disabled={loading}
                             className="btn-primary"
                         >
-                            {loading ? "Calculating..." : <><ShieldCheck size={20} /> Predict Safe Route</>}
+                            {loading ? loadingText : <><ShieldCheck size={20} /> Predict Safe Route</>}
                         </button>
 
                         {dangerWarning && (
