@@ -50,6 +50,10 @@ const RiskDashboard = () => {
         const timer1 = setTimeout(() => setLoadingText("Starting AI Engine..."), 2000);
         const timer2 = setTimeout(() => setLoadingText("Waking up Server (may take 60s)..."), 8000);
 
+        // Create an AbortController for a 60-second timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
+
         try {
             // Basic validation
             for (let key in formData) {
@@ -59,6 +63,7 @@ const RiskDashboard = () => {
                     setLoading(false);
                     clearTimeout(timer1);
                     clearTimeout(timer2);
+                    clearTimeout(timeoutId);
                     return;
                 }
             }
@@ -66,8 +71,11 @@ const RiskDashboard = () => {
             const response = await fetch("https://smart-traffic-api-u09k.onrender.com/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
@@ -77,10 +85,15 @@ const RiskDashboard = () => {
             setResult(data);
         } catch (error) {
             console.error("Analysis failed:", error);
-            alert("Failed to analyze risk. Server might be waking up, please try again.");
+            if (error.name === 'AbortError') {
+                alert("Request timed out. The server is likely waking up. Please try again.");
+            } else {
+                alert("Failed to analyze risk. Ensure backend is running or try again.");
+            }
         } finally {
             clearTimeout(timer1);
             clearTimeout(timer2);
+            clearTimeout(timeoutId);
             setLoading(false);
         }
     };

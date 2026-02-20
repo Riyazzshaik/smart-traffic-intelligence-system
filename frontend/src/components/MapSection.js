@@ -126,6 +126,10 @@ const MapSection = () => {
         const timer1 = setTimeout(() => setLoadingText("Starting AI Engine..."), 2000);
         const timer2 = setTimeout(() => setLoadingText("Waking up Server (may take 60s)..."), 8000);
 
+        // Create an AbortController for a 60-second timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+
         try {
             const response = await fetch("https://smart-traffic-api-u09k.onrender.com/safer-route", {
                 method: "POST",
@@ -135,8 +139,11 @@ const MapSection = () => {
                     start_lng: start.lng,
                     end_lat: end.lat,
                     end_lng: end.lng
-                })
+                }),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId); // Clear timeout if successful
 
             const data = await response.json();
 
@@ -164,10 +171,15 @@ const MapSection = () => {
             }
         } catch (error) {
             console.error("Error fetching routes:", error);
-            alert("Failed to connect to AI Route Server. Please try again in 1 minute.");
+            if (error.name === 'AbortError') {
+                alert("Request timed out. The server is taking too long to wake up or the route is too long. Please try again.");
+            } else {
+                alert("Failed to connect to AI Route Server. Please try again in 1 minute.");
+            }
         } finally {
             clearTimeout(timer1);
             clearTimeout(timer2);
+            clearTimeout(timeoutId);
             setLoading(false);
         }
     };
