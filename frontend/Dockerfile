@@ -10,22 +10,21 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Pass build-time environment variables
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Build the app
 RUN npm run build
 
-# Stage 2: Serve the application
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Install 'serve' to run the static site
-RUN npm install -g serve
+# Stage 2: Serve the application with Nginx
+FROM nginx:stable-alpine
 
 # Copy built assets from builder stage
-COPY --from=build /app/build ./build
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Expose port
-EXPOSE 3000
+EXPOSE 80
 
-# Start server
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

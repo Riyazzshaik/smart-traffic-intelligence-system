@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
-from ..config import Config
+from config import Config
 from .models.ml_engine import init_ml_engine
 
 def create_app(config_class=Config):

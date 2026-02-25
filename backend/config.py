@@ -8,7 +8,7 @@ class Config:
     """Base configuration."""
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    ML_MODELS_DIR = os.path.join(BASE_DIR, 'ml_models')
+    ML_MODELS_DIR = BASE_DIR
 
     # Security
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
