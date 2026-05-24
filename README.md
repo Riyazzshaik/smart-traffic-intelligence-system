@@ -1,126 +1,128 @@
 # 🚦 Smart Traffic Intelligence System
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/Start-Python%203.9-3776AB.svg)
-![React](https://img.shields.io/badge/Frontend-React-61DAFB.svg)
-![ML](https://img.shields.io/badge/AI-XGBoost-orange.svg)
-![Docker](https://img.shields.io/badge/DevOps-Docker-2496ED.svg)
-
-> An AI-powered platform for real-time accident risk prediction and safe route optimization.
+An AI-powered web platform for **real-time accident risk prediction** and **safe route optimization** using Machine Learning and geospatial intelligence.
 
 ---
 
-## 📖 Overview
+## 🌐 Live Demo
 
-**TrafficGuard AI** goes beyond traditional navigation by prioritizing safety over speed. Leveraging historical accident data and real-time environmental factors, the system predicts accident probability and suggests safer travel alternatives.
-
-### 🌟 Key Features
-- **Real-Time Risk Analysis**: Instant accident severity prediction based on weather, time, and road conditions.
-- **Dual-Path Routing**: Compares the "Fastest" route vs. the "Safest" route using specialized risk scoring.
-- **Blackspot Clustering**: Visualizes high-risk zones using K-Means clustering data.
-- **Interactive Intelligence**: Live map with dynamic route selection and geolocation.
-- **Professional UI**: Glassmorphism-based Dark AI theme for a modern user experience.
+* [Live Website](https://smart-traffic-intelligence-system-5.vercel.app/?utm_source=chatgpt.com)
+* [Backend API](https://smart-traffic-backend-aj9t.onrender.com?utm_source=chatgpt.com)
+* [GitHub Repository](https://github.com/Riyazzshaik/smart-traffic-intelligence-system?utm_source=chatgpt.com)
 
 ---
 
-## 🏗️ Architecture
+# ✨ Features
 
-The system follows a modular Monorepo architecture:
-
-\`\`\`
-smart-traffic-intelligence/
-├── backend/             # Flask API & ML Engine
-│   ├── app/
-│   │   ├── models/      # XGBoost & K-Means Inference Logic
-│   │   ├── routes/      # API Endpoints (Predict, Routing)
-│   │   └── services/    # Business Logic
-│   ├── ml_models/       # Serialized Joblib Models
-│   └── run.py           # Entry Point
-│
-├── frontend/            # React Client
-│   ├── src/
-│   │   ├── components/  # Reusable UI Components
-│   │   ├── services/    # API abstraction
-│   │   └── assets/      # Icons & Styles
-│   └── Dockerfile
-│
-└── docker-compose.yml   # Container Orchestration
-\`\`\`
+* 🚨 Real-time accident risk prediction
+* 🛣️ Fastest vs Safest route comparison
+* 📍 Accident blackspot detection using K-Means
+* 🗺️ Interactive map visualization
+* 🎨 Modern glassmorphism UI
+* 🤖 ML-powered traffic intelligence
 
 ---
 
-## 🧠 Machine Learning Engine
+# 🧠 Machine Learning
 
-The core intelligence is powered by two primary models:
-1.  **Severity Prediction Model (`XGBoost`)**:
-    -   Analyzes 20+ features (Weather, Light, Urban/Rural, Speed).
-    -   Outputs a `Severity Probability Score` (0.0 - 1.0).
-2.  **Blackspot Detector (`K-Means`)**:
-    -   Clusters historical accident coordinates.
-    -   Identifies geographic "Danger Zones" enabling spatial risk scoring.
+## XGBoost Model
+
+Predicts accident severity using:
+
+* Weather
+* Road conditions
+* Speed
+* Lighting
+* Urban/Rural factors
+
+## K-Means Clustering
+
+Detects high-risk accident zones from historical traffic data.
 
 ---
 
-## 🚀 Getting Started
+# 🛠️ Tech Stack
 
-### Prerequisites
-- Docker & Docker Compose
-- *OR* Python 3.9+ and Node.js 18+
+### Frontend
 
-### Option A: Run with Docker (Recommended)
-\`\`\`bash
-# 1. Clone the repository
-git clone https://github.com/Start-Riyaz/smart-traffic-intelligence.git
-cd smart-traffic-intelligence
+* React.js
+* Leaflet Maps
+* Framer Motion
 
-# 2. Start the application
-docker-compose up --build
-\`\`\`
-The App will be available at:
--   **Frontend**: `http://localhost:3000`
--   **Backend**: `http://localhost:5000`
+### Backend
 
-### Option B: Manual Setup
+* Flask
+* Python
+* REST APIs
 
-#### 1. Backend Setup
-\`\`\`bash
+### ML & Data
+
+* Scikit-Learn
+* XGBoost
+* Pandas
+* NumPy
+
+### Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+* Docker
+
+---
+
+# 🚀 Local Setup
+
+## Backend
+
+```bash id="i5j3r4"
 cd backend
+
 python -m venv venv
-source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+
+# Windows
+venv\Scripts\activate
+
 pip install -r requirements.txt
+
 python run.py
-\`\`\`
+```
 
-#### 2. Frontend Setup
-\`\`\`bash
+---
+
+## Frontend
+
+```bash id="h3m9v1"
 cd frontend
+
 npm install
+
 npm start
-\`\`\`
+```
 
 ---
 
-## 📸 Screenshots
+# 📂 Project Structure
 
-| Risk Dashboard | Safe Route Planner |
-|:---:|:---:|
-| *(Add Dashboard Screenshot)* | *(Add Map Screenshot)* |
-
----
-
-## 🛠️ Tech Stack
-
--   **Frontend**: React.js, Framer Motion, Leaflet Maps, Modern CSS3
--   **Backend**: Flask (Python), NumPy, Pandas, Joblib
--   **Machine Learning**: Scikit-Learn, XGBoost
--   **Infrastructure**: Docker, Render (Backend Deployment), Vercel (Frontend Deployment)
+```bash id="p8k2s6"
+smart-traffic-intelligence-system/
+│
+├── backend/
+├── frontend/
+├── docker-compose.yml
+└── README.md
+```
 
 ---
 
-## 📄 License
+# 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License
 
 ---
 
-**Developed by [Shaik Riyaz](https://www.linkedin.com/in/shaik-riyaz-28630b326)**
+# 👨‍💻 Developed By
+
+### Shaik Riyaz
+
+* [Portfolio Project Live Demo](https://smart-traffic-intelligence-system-5.vercel.app/?utm_source=chatgpt.com)
+* [GitHub Profile](https://github.com/Riyazzshaik?utm_source=chatgpt.com)
